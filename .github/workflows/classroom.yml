@@ -28,11 +28,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      # --- Устанавливаем JDK 21 (заменено с java-version: '17' на '21') ---
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
           cache: maven
+
+      # Диагностика: покажем версии java/javac и mvn
+      - name: Show Java / Maven versions
+        run: |
+          echo "=== java/javac/mvn versions ==="
+          java -version || true
+          javac -version || true
+          mvn -v || true
+          echo "=== which executables ==="
+          which java || true
+          which javac || true
+          echo "JAVA_HOME=$JAVA_HOME"
 
       # 1) Compilation
       - name: Compile (skip tests)
